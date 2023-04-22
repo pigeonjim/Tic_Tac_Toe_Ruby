@@ -1,18 +1,17 @@
 # class that creates a board, records moves, checks if moves are valid, returns lines for score checking
 #   and displays board
 class TheBoard
-  attr_reader :length, :height, :default_value
-  attr_accessor :board_ary
+  attr_accessor :board_ary, :temp_board
 
+  DEFAULT_VALUE = 'N'.freeze
+  LENGTH = 3
+  HEIGHT = 3
   def initialize
-    @default_value = 'N'
-    @length = 3
-    @height = 3
-    @board_ary = Array.new(length) { Array.new(height, default_value) }
+    @board_ary = Array.new(LENGTH) { Array.new(HEIGHT, DEFAULT_VALUE) }
   end
 
-  def show_board
-    board_ary.each do |a_row|
+  def show_board(board_to_show = board_ary)
+    board_to_show.each do |a_row|
       puts a_row.join(' ')
     end
   end
@@ -22,7 +21,7 @@ class TheBoard
   end
 
   def check_move(x_cord, y_cord)
-    board_ary[y_cord][x_cord] == default_value
+    board_ary[y_cord][x_cord] == DEFAULT_VALUE
   end
 
   def return_a_row(y_cord)
@@ -46,22 +45,31 @@ class TheBoard
   end
 
   def reset_board
-    3.times {|i|
-      3.times {|j|
-        board_ary[j][i] = default_value
-      }
-    }
+    the_reset = ->(j, i, _count) { board_ary[j][i] = DEFAULT_VALUE }
+    loop_the_board(the_reset)
   end
 
   def sample_board
+    temp_board = Marshal.load(Marshal.dump(board_ary))
+    the_sample = ->(j, i, count) { temp_board[i][j] = count }
+    loop_the_board(the_sample)
+    show_board(temp_board)
+  end
+
+  def remaining_moves
+    temp_board = Marshal.load(Marshal.dump(board_ary))
+    remaining = ->(j, i, count) { temp_board[i][j] = count if temp_board[i][j] == DEFAULT_VALUE }
+    loop_the_board(remaining)
+    show_board(temp_board)
+  end
+
+  def loop_the_board(thing)
     count = 1
     3.times { |i|
       3.times { |j|
-        add_move(j, i, count)
+        thing.call(j, i, count)
         count += 1
       }
     }
-    show_board
-    reset_board
   end
 end
