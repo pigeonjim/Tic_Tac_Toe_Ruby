@@ -1,6 +1,8 @@
-require "./classes/tic_tac_toe.rb"
+require './classes/the_board'
 thing = TheBoard.new
-thing.add_move(0, 0, '1')
-thing.add_move(1, 0, '2')
-thing.add_move(2, 0, '3')
+thing.show_board
+puts "\n\n"
+thing.sample_board
+puts "\n\n"
+thing.reset_board
 thing.show_board
