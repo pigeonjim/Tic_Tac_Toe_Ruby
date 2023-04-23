@@ -1,13 +1,19 @@
 # class that creates a board, records moves, checks if moves are valid, returns lines for score checking
 #   and displays board
 class TheBoard
-  attr_accessor :board_ary, :temp_board
+  attr_accessor :board_ary, :temp_board, :board_co_ords
 
   DEFAULT_VALUE = 'N'.freeze
   LENGTH = 3
   HEIGHT = 3
   def initialize
     @board_ary = Array.new(LENGTH) { Array.new(HEIGHT, DEFAULT_VALUE) }
+    @board_co_ords = Hash.new
+  end
+
+  def populate_co_ords_hash
+    fill_it = ->(j, i, count) { board_co_ords[count.to_s.to_sym] = [j, i] }
+    loop_the_board(fill_it)
   end
 
   def show_board(board_to_show = board_ary)
@@ -16,20 +22,14 @@ class TheBoard
     end
   end
 
-  def add_move(x_cord, y_cord, player)
-    board_ary[y_cord][x_cord] = player if check_move(x_cord, y_cord)
+  def add_move(a_number, player)
+    x_ord = board_co_ords[a_number.to_s.to_sym][0]
+    y_ord = board_co_ords[a_number.to_s.to_sym][1]
+    board_ary[y_ord][x_ord] = player if check_move(x_ord, y_ord)
   end
 
   def check_move(x_cord, y_cord)
     board_ary[y_cord][x_cord] == DEFAULT_VALUE
-  end
-
-  def return_a_row(y_cord)
-    "#{show_one_cell(0, y_cord)} #{show_one_cell(1, y_cord)} #{show_one_cell(2, y_cord)}"
-  end
-
-  def return_a_col(x_cord)
-    "#{show_one_cell(x_cord, 0)} #{show_one_cell(x_cord, 1)} #{show_one_cell(x_cord, 2)}"
   end
 
   def return_tl_to_br
