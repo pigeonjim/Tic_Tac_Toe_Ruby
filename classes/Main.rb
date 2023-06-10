@@ -11,10 +11,6 @@ class Main
     @player_input
   end
 
-  def testing()
-
-  end
-
   def text_input
     case player_input.downcase
     when 'help'

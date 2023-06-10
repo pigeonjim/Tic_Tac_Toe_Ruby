@@ -1,6 +1,5 @@
 class AGame
   attr_accessor :the_board, :current_player
-  attr_reader :PLAYER_ONE, :PLAYER_TWO
 
   PLAYER_ONE = 'X'
   PLAYER_TWO = 'Ø'
