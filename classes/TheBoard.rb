@@ -36,6 +36,10 @@ class TheBoard
     "#{show_one_cell(0, 0)} #{show_one_cell(1, 1)} #{show_one_cell(2, 2)}"
   end
 
+  def return_a_row(row_no)
+    "#{show_one_cell(0, row_no)} #{show_one_cell(1, row_no)} #{show_one_cell(2, row_no)}"
+  end
+
   def return_tr_to_bl
     "#{show_one_cell(2, 0)} #{show_one_cell(1, 1)} #{show_one_cell(0, 2)}"
   end
@@ -71,5 +75,10 @@ class TheBoard
         count += 1
       }
     }
+  end
+
+  def full_line?(other_player, a_line)
+    return false if a_line.include? other_player
+    return true unless a_line.include? DEFAULT_VALUE
   end
 end

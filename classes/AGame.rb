@@ -1,5 +1,6 @@
 class AGame
   attr_accessor :the_board, :current_player
+  attr_reader :PLAYER_ONE, :PLAYER_TWO
 
   PLAYER_ONE = 'X'
   PLAYER_TWO = 'Ø'
@@ -30,5 +31,19 @@ class AGame
 
   def make_a_move(cell_no)
     a_board.add_move(cell_no)
+  end
+
+  def opposition(the_player)
+    the_player == PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE
+  end
+
+  def winner?(the_player)
+    other_player = opposition(the_player)
+    return true if the_board.full_line?(other_player, the_board.return_tl_to_br)
+    return true if the_board.full_line?(other_player, the_board.return_tr_to_bl)
+
+    3.times { |i| return true if the_board.full_line?(other_player, the_board.board_ary[i]) }
+    3.times { |i| return true if the_board.full_line?(other_player, the_board.return_a_row(i)) }
+    return false
   end
 end
