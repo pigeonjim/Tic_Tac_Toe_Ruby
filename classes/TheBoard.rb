@@ -1,18 +1,18 @@
 # class that creates a board, records moves, checks if moves are valid, returns lines for score checking
 #   and displays board
 class TheBoard
-  attr_accessor :board_ary, :temp_board, :board_co_ords
+  attr_accessor :board_ary, :temp_board, :board_moves
 
   DEFAULT_VALUE = 'N'.freeze
   LENGTH = 3
   HEIGHT = 3
   def initialize
     @board_ary = Array.new(LENGTH) { Array.new(HEIGHT, DEFAULT_VALUE) }
-    @board_co_ords = Hash.new
+    @board_moves = Hash.new
   end
 
-  def populate_co_ords_hash
-    fill_it = ->(j, i, count) { board_co_ords[count.to_s.to_sym] = [j, i] }
+  def populate_moves_hash
+    fill_it = ->(j, i, count) { board_moves[count.to_s.to_sym] = [j, i] }
     loop_the_board(fill_it)
   end
 
@@ -23,8 +23,8 @@ class TheBoard
   end
 
   def add_move(a_number, player)
-    x_ord = board_co_ords[a_number.to_s.to_sym][0]
-    y_ord = board_co_ords[a_number.to_s.to_sym][1]
+    x_ord = board_moves[a_number.to_s.to_sym][0]
+    y_ord = board_moves[a_number.to_s.to_sym][1]
     board_ary[y_ord][x_ord] = player if check_move(x_ord, y_ord)
   end
 

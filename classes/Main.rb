@@ -4,12 +4,16 @@ class Main
 
   attr_accessor :board, :game, :game_over, :player_input
 
-  def initialize{
+  def initialize
     @board = TheBoard.new
     @game = AGame.new(board)
     @game_over = false
     @player_input
-  }
+  end
+
+  def testing()
+
+  end
 
   def text_input
     case player_input.downcase
@@ -32,7 +36,7 @@ class Main
   end
 
   def play_game
-    board.populate_co_ords_hash
+    board.populate_moves_hash
     player_input = game.start_game
     while game_over == false
       case player_input
@@ -44,4 +48,3 @@ class Main
     end
   end
 end
-
